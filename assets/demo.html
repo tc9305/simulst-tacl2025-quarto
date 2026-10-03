@@ -1,0 +1,28 @@
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const demo = document.querySelector('[data-demo="buffer"]');
+  if (!demo) return;
+  let count = 0;
+  const output = demo.querySelector('.buffer-content');
+  const status = demo.querySelector('.demo-status');
+  const next = demo.querySelector('[data-action="next"]');
+  const paint = () => {
+    output.replaceChildren();
+    if (count === 0) output.textContent = '尚未收到 chunk';
+    for (let i = 1; i <= count; i++) {
+      const piece = document.createElement('span');
+      piece.className = 'audio-piece' + (i === count ? ' new' : '');
+      piece.textContent = 'C' + '₀₁₂₃₄₅₆'[i];
+      output.append(piece);
+    }
+    status.textContent = 't = ' + count + ' · 已接收 ' + (count * .5).toFixed(1) + ' 秒';
+    next.disabled = count >= 6;
+  };
+  next.addEventListener('click', event => { event.stopPropagation(); count = Math.min(6, count + 1); paint(); });
+  demo.querySelector('[data-action="reset"]').addEventListener('click', event => { event.stopPropagation(); count = 0; paint(); });
+  demo.addEventListener('keydown', event => {
+    if (event.target instanceof HTMLButtonElement && (event.key === ' ' || event.key === 'Enter')) event.stopPropagation();
+  });
+  paint();
+});
+</script>
