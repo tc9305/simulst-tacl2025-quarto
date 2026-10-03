@@ -1,0 +1,26 @@
+project:
+  type: default
+  output-dir: docs
+  render:
+    - index.qmd
+lang: zh-TW
+format:
+  revealjs:
+    theme: simple
+    css: styles.css
+    width: 1280
+    height: 720
+    margin: 0.06
+    center: false
+    slide-number: c/t
+    transition: fade
+    controls: true
+    progress: true
+    hash: true
+    history: true
+    navigation-mode: linear
+    embed-resources: true
+    html-math-method: plain
+    include-after-body: assets/demo.html
+    preview-links: false
+    footer: 'SimulST · Papi et al., TACL 2025'

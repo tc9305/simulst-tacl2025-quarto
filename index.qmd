@@ -1,0 +1,277 @@
+---
+title: '你的 SimulST 系統<br>有多接近真實世界？'
+subtitle: '術語、六步流程與研究痛點'
+author: 'Papi · Polák · Macháček · Bojar｜TACL 2025'
+---
+
+## 這篇論文在問什麼？
+
+::: {.lead}
+在人工切好的句子上表現很好，<br>能否處理麥克風持續送來的語音？
+:::
+
+- **研究設定**：短音檔、已知邊界、每段可以重置。
+- **真實場景**：持續輸入、自己處理邊界、持續管理歷史。
+- **本文貢獻**：統一術語、拆解六步流程、分析 **110 篇**研究。
+
+::: {.source}
+來源：§1，pp. 281–282；§4，p. 288。本文統計描述其調查範圍，並非 2026 年的現況。
+:::
+
+::: {.notes}
+本篇 How “Real” is Your Real-Time Simultaneous Speech-to-Text Translation System? 是 survey 與概念框架，不是提出一個新翻譯模型。原文：https://aclanthology.org/2025.tacl-1.14/ ，pp. 281–313，DOI 10.1162/tacl_a_00740。作者批評研究過度集中於 human pre-segmented speech。這不是否定 bounded 模型的研究價值，而是提醒讀者，這類實驗沒有驗證完整線上系統。本文概念流程假定乾淨、單一語言、單一說話者、沒有重疊語音；雜訊、diarization 和 code-switching 不在本次分析範圍內（§3.1）。
+:::
+
+## Offline ST 與 SimulST
+
+| | Offline ST | SimulST |
+|---|---|---|
+| 輸入方式 | 先取得完整語音段 | 隨語音到來逐步接收 |
+| 輸出時機 | 完整段落之後翻譯 | 說話期間就產生部分譯文 |
+| 主要取捨 | 翻譯品質 | 品質、延遲與輸出穩定性 |
+
+::: {.takeaway .fragment}
+SimulST 描述「邊聽邊翻」；是否夠快，仍須測量延遲。
+:::
+
+::: {.source}
+來源：§1–2.1，pp. 281–282；§3.1–3.2，pp. 285–287。
+:::
+
+::: {.notes}
+Offline 也可能先對長音檔做 segmentation，所以不能把 offline 理解成永遠把整場演講一次送入模型。SimulST 可以使用 bounded 或 unbounded 輸入；是否同時接收與產生輸出，和輸入是否預切，是不同維度。
+:::
+
+## 四個常見名稱，各自強調什麼？
+
+| 名稱 | 本文的解讀 |
+|---|---|
+| **simultaneous** | 接收輸入與產生輸出同時進行 |
+| **real-time** | 處理與回應的延遲低 |
+| **streaming** | 在相關 ASR 文獻中強調逐步處理語音 |
+| **online** | 常被用來與 offline 對比 |
+
+::: {.takeaway}
+名稱不足以判定系統能力：還要看輸入、邊界與延遲設定。
+:::
+
+::: {.source}
+來源：Table 1，p. 286；§4 “The Terminological Chaos”，pp. 287–288。
+:::
+
+::: {.notes}
+只有 simultaneous 和 real-time 在 Table 1 中有明確定義。streaming、online 的解讀來自 §4 對既有文獻用法的整理，並不是作者替所有領域制定的普遍定義。作者發現超過 65% 的調查論文混用這些詞。不要推論標題寫 streaming 就必然處理 unbounded speech。
+:::
+
+## Bounded segments 的兩種來源
+
+![](assets/input-paths.svg){.diagram}
+
+::: {.takeaway}
+在完整六步流程中，segment 可來自 stream；<br>在既有實驗中，它也可能由資料集直接提供。
+:::
+
+::: {.source}
+依 §3.1–3.2，pp. 284–286 重繪。unbounded 指事前沒有整體長度資訊，並非真的無限長。
+:::
+
+::: {.notes}
+這張圖回應先前對話的混淆：不能由 bounded segments 反推出系統自己處理过 continuous stream。上路是系統在串流中進行 simultaneous segmentation，下路是翻譯開始前就提供 gold 或 automatic pre-segmented 音檔。若跳過 Step 2，資料仍叫 audio stream 或 unbounded speech。bounded/unbounded 描述系統拿到的輸入条件，segment 描述切出來的單位。
+:::
+
+## Segment 與 chunk
+
+![](assets/segment-chunk.svg){.diagram}
+
+::: {.takeaway}
+Segment 是分段後的處理單位；chunk 是逐步餵入的單位。<br>Segmentation-free 仍然可以逐次接收 chunks。
+:::
+
+::: {.source}
+依 §3.1，p. 284；Table 1，p. 286 重繪。500 ms 為原文舉例，不是固定規定。
+:::
+
+::: {.notes}
+圖中的 3 秒 segment、每段 6 個 500 ms chunks 都是教學示例，不代表實際句長。chunk 不需要具有完整語意；segment 也不保證一定是完整句子，VAD 或固定長度分段可能切在語意中間。兩者物理上都可能切音訊，但在本文術語裡承担不同功能。不要使用 unbounded segments 表示 Step 2 的結果。
+:::
+
+## Cascade 與 direct
+
+![](assets/architectures.svg){.diagram}
+
+::: {.takeaway}
+分類依據：推論時是否用明確產生的 ASR 文字，作為 MT 的輸入。
+:::
+
+::: {.source}
+依 §2.1，p. 282；§3.2，pp. 286–287 重繪。
+:::
+
+::: {.notes}
+ASR 是 automatic speech recognition，MT 是 machine translation，ST 是 speech translation。cascade 的 ASR 錯誤可能傳至 MT。direct 繞過明確的中間 ASR 輸出，但可以使用 ASR pre-training、CTC 或 multi-task training；不能因此斷言 direct 完全沒有 ASR supervision。direct/cascade、bounded/unbounded、incremental/re-translation 是三個分類維度，不應綁在一起。
+:::
+
+## SimulST 的六步流程
+
+![](assets/pipeline.svg){.diagram}
+
+::: {.source}
+依 §3.1，Figure 1，pp. 284–285 重繪。Step 2 與 Step 5 可選；實作不一定分成六個獨立模組。
+:::
+
+::: {.notes}
+六步依次是 Audio Acquisition、Audio Segmentation、Speech Buffer Update、Hypothesis Generation、Speech and Text Buffers Trimming、Output Presentation。圖為概念流程，實際 scheduling、policy 的位置和實作可有所不同。Step 4 包括模型與 policy。沒有 Step 2 不代表什麼都不切：Step 3 仍然以 chunks 更新 buffer。對長串流，Step 5 的歷史管理尤其重要。
+:::
+
+## Step 1–3：chunk 如何累積到 buffer？
+
+```{=html}
+<div class="buffer-demo" data-demo="buffer">
+  <div class="demo-heading">新 chunk → Speech Buffer B<sub>S</sub> → 模型可用的語音歷史</div>
+  <div class="chunk-track" aria-label="音訊 chunks">C₁ · C₂ · C₃ · C₄ · C₅ · C₆</div>
+  <div class="buffer-row"><strong>B<sub>S</sub></strong><div class="buffer-content" aria-live="polite">尚未收到 chunk</div></div>
+  <div class="buffer-row"><strong>B<sub>T</sub></strong><div>先前已送出的譯文；本頁只示範 Step 3，不更新文字</div></div>
+  <div class="demo-controls"><button type="button" data-action="next">接收下一個 chunk</button><button type="button" data-action="reset">重置示例</button><span class="demo-status">t = 0</span></div>
+</div>
+```
+
+::: {.takeaway}
+B<sub>S</sub><sup>t</sup> ← B<sub>S</sub><sup>t−1</sup> ⊕ C<sub>t</sub>　（⊕ 表示接續）
+:::
+
+::: {.source}
+來源：§3.1，Step 3–4，p. 284。互動示例僅演示累積，沒有執行語音翻譯模型。
+:::
+
+::: {.notes}
+點擊按鈕讓 chunk 逐次到來。t 是教學示例的更新序號，不是 GPU 時間。buffer 是保存歷史的容器，不等於每次新來的 chunk。模型可以讀整個 speech buffer，也可以只讀其中一部分。B_T 保存先前 emitted output，在下一輪 hypothesis generation 提供文字歷史；它不是 ASR transcript buffer。按鈕不會觸發 Reveal 下一頁，鍵盤方向鍵仍可正常換頁。
+:::
+
+## Step 4：hypothesis 不等於 emitted output
+
+![](assets/policy.svg){.diagram}
+
+::: {.takeaway}
+H 是模型候選譯文；E 是 policy 決定這次送出的部分。<br>等待更多輸入，通常帶來更多上下文，也增加延遲。
+:::
+
+::: {.source}
+依 §3.1，Step 4，pp. 284–285 重繪。候選文字與選取規則均為教學示例。
+:::
+
+::: {.notes}
+原文概念式：H ← M(B_S^t, B_T^(t−1))；E = policy(H)；B_T^t ← B_T^(t−1) ⊕ E。policy 可等待、送出全部或一部分。圖把模型和 policy 拆開方便理解，實際系統可整合這些決策。示例 We / will discuss ... 不代表任何特定 wait-k、local agreement 或 StreamAtt 演算法。串接式對 incremental 很直觀；re-translation 的呈現可以修訂已顯示的文字。
+:::
+
+## Step 5：trimming 保留哪些歷史？
+
+![](assets/trimming.svg){.diagram}
+
+::: {.takeaway}
+裁掉歷史，是為了控制上下文大小；<br>語音與文字應保留語意對齊的資訊。
+:::
+
+::: {.source}
+依 §3.1，Step 5，p. 285 重繪。圖中刪除量為示意，非本文指定的 trimming 演算法。
+:::
+
+::: {.notes}
+在 unbounded 場景，buffer 若不停成長，會碰到模型記憶體與 context 限制。原文要求 trim function 注意 audio-text semantic alignment。不能把一個 chunk 和一個 token 當作固定對應：圖中的括號只是對齊區間的概念。若採用 segmentation，兩個 buffers 通常在 segment 邊界重置。trim 是保留部分歷史，reset 是全部清空；對已顯示譯文的修改則屬 Step 6，不能混為一談。
+:::
+
+## Step 6：incremental 與 re-translation
+
+```{=html}
+<div class="output-demo">
+  <div class="output-line"><h3>Incremental</h3><p>We <span class="fragment" data-fragment-index="0">will discuss </span><span class="fragment" data-fragment-index="1">the proposal.</span></p><small>只追加新的 tokens，已送出的錯誤無法回改</small></div>
+  <div class="output-line"><h3>Re-translation</h3><p><span class="fragment fade-out" data-fragment-index="2">We discuss the plan.</span><span class="fragment fade-in" data-fragment-index="2">We will discuss the proposal.</span></p><small>可修改已顯示文字，須考慮 flickering 與重讀負擔</small></div>
+</div>
+```
+
+::: {.takeaway}
+逐步接收輸入，和是否改寫已顯示輸出，是不同問題。
+:::
+
+::: {.source}
+來源：§3.2，p. 287；§5，pp. 290–291。英文句子為教學示例。
+:::
+
+::: {.notes}
+按下一步先追加 incremental tokens，然後顯示 re-translation 的修訂。本文在一般性定義中，incremental 表示序列逐步發生；但作為 output strategy 名称，incremental 特指只追加、不可修訂，需分清上下文。re-translation 有機會提高最終品質，但頻繁改寫會使使用者重讀。不要只比較 final BLEU；穩定性和人的理解也是評估面向。
+:::
+
+## 調查中的輸入設定：110 篇研究
+
+![](assets/survey.svg){.diagram}
+
+::: {.takeaway}
+大多數研究沒有直接面對 unbounded input 的完整挑戰。
+:::
+
+::: {.source}
+來源：§4 “Humans Will Not Segment Our Audio”，p. 288；Appendix A。分類數據為本文調查結果。
+:::
+
+::: {.notes}
+90/110=81.8% 使用 pre-segmented input；20/110 處理 unbounded，包括 14 篇 concurrent segmentation、6 篇 segmentation-free。原文說 pre-segmented 子集幾乎全部使用 gold segmentation（97.7%），不要誤把這個比例的分母當作全部 110 篇。模型架構另有 64 篇 direct 與 49 篇 cascade，分類不是互斥相加的 110，故不把它們畫成 partition chart。93 篇使用 incremental output；也不可直接將 110−93 當成所有 re-translation 的數量。統計不是現今所有研究的普查。
+:::
+
+## Gold segmentation 藏起了哪些問題？
+
+| 被預先處理的部分 | 真實系統仍須解決 |
+|---|---|
+| 句子邊界 | 用 VAD、語意訊號或模型來判定邊界 |
+| 音檔結束點 | 決定何時停止等待、何時 reset |
+| 短段落的上下文 | 管理長串流的語音與文字歷史 |
+
+::: {.takeaway}
+Automatic pre-segmentation 是改善實驗條件的一步；<br>它仍不同於在 live stream 中即時分段。
+:::
+
+::: {.source}
+來源：§2.2，pp. 282–283；§4–5，pp. 288–289。
+:::
+
+::: {.notes}
+VAD=voice activity detection，偵測有聲活動和停頓，不保證語法或語意句界。heuristics 指輔助規則，例如實務可設最短或最長片段；這些是解釋術語的通例，本文此處没有指定一個完整規則集。作者至少要求 bounded 實驗改用 automatic pre-segmentation，以及清楚報告輸入型態；更完整的驗證是 concurrent segmentation 或 segmentation-free unbounded setting。停止等待、reset 等是完整系統設計的說明，不表示論文證明某套實作最佳。
+:::
+
+## 延遲與評估：要量到什麼？
+
+| 觀點 | 要回答的問題 |
+|---|---|
+| **Computationally unaware** | 假設運算時間為零，policy 等了多久？ |
+| **Computationally aware** | 算入實際運算後，輸出何時可用？ |
+| **Unbounded evaluation** | 能否比較長串流，避免分段對齊誤差？ |
+| **User experience** | 品質、等待與文字修訂是否影響理解？ |
+
+::: {.takeaway}
+作者建議固定報告 unaware；可行時加報 aware，<br>並在相同硬體與執行環境下比較。
+:::
+
+::: {.source}
+來源：§3.2，p. 287；§5，pp. 289–291。評估限制指本文發表時討論的工具與設定。
+:::
+
+::: {.notes}
+unaware 除 policy 等待也反映跨語言字序等因素，不是只有 GPU 時間以外的一個單獨加數。aware 取決於硬體、程式與 scheduling，不能拿不同硬體下的數字直接排名。§5 討論 SimulEval 及 AL、DAL、LAAL、ATD 的 pre-segmented 評估設定。StreamLAAL 是作者引用的既有串流評估延伸（Papi et al., 2024b），不是本篇 survey 新提出的 metric。也不要把 StreamLAAL 解讀成單純加入計算時間的 LAAL。長串流對齊與 document-level quality 是另一個問題。本文並未給 universal acceptable latency threshold。
+:::
+
+## 設計 SimulST 時，先說清楚這些選擇
+
+1. **輸入**：gold／automatic pre-segmented，還是 unbounded？
+2. **流程**：誰分段？誰選擇 E？如何 trim／reset？
+3. **架構與輸出**：direct／cascade；追加／允許修訂？
+4. **評估**：品質、延遲、長串流與人的理解是否一起驗證？
+
+::: {.closing}
+把假設說清楚，才能知道方法改善了哪一部分。
+:::
+
+::: {.source}
+Papi, S., Polák, P., Macháček, D., & Bojar, O. (2025). *How “Real” is Your Real-Time Simultaneous Speech-to-Text Translation System?* TACL 13: 281–313. [論文與資料](https://aclanthology.org/2025.tacl-1.14/) · [PDF](https://aclanthology.org/2025.tacl-1.14.pdf)
+:::
+
+::: {.notes}
+作者提出的方向還包含記憶與context選擇、字幕呈現、document-level評估，以及人類對品質和延遲差異的感知。這些是研究建議，不是已被本文驗證的最佳新架構。若報告最後要談自己的實作，可依這四項說明自己的選擇，再清楚標示為研究構想。原文在 ACL Anthology 以 CC BY 4.0 發布；本簡報以中文摘要及重新繪製的教學圖解來導讀，未直接貼整頁論文。
+:::
