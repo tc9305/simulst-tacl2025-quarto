@@ -1,6 +1,8 @@
 project:
   type: default
-  output-dir: docs
+  output-dir: ../docs/SimulST
+  post-render:
+    - python ../scripts/fix_slide_preview.py
   render:
     - index.qmd
 lang: zh-TW
@@ -21,6 +23,8 @@ format:
     navigation-mode: linear
     embed-resources: true
     html-math-method: plain
-    include-after-body: assets/demo.html
+    include-after-body:
+      - assets/demo.html
+      - assets/home-button.html
     preview-links: false
     footer: 'SimulST · Papi et al., TACL 2025'

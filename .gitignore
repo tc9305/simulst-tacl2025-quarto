@@ -1,4 +1,3 @@
-/.quarto/
-/.DS_Store
-
+**/.quarto/
+**/.DS_Store
 **/*.quarto_ipynb
