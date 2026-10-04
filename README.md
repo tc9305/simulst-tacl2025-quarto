@@ -10,9 +10,9 @@
 | [StreamST](StreamST/README.md) | 串流語音翻譯研究與實驗 | 待開始 |
 | [SpeechLLM](SpeechLLM/README.md) | Speech LLM 架構研究、實作與 demo | 待開始 |
 
-網站首頁：https://tc9305.github.io/simulst-tacl2025-quarto/
+網站首頁：https://tc9305.github.io/streaming-speech-research/
 
-目前 GitHub repo 名稱維持 `simulst-tacl2025-quarto`；若之後改名為 `streaming-speech-research`，請同步更新網站網址與 SimulST 的線上簡報連結。
+GitHub repository：[tc9305/streaming-speech-research](https://github.com/tc9305/streaming-speech-research)。
 
 ## 資料夾
 

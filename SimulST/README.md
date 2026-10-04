@@ -3,7 +3,7 @@
 以 Papi et al. (2025), **How “Real” is Your Real-Time Simultaneous Speech-to-Text Translation System?** 為主題的 16 張繁體中文簡報。
 
 - [論文](https://aclanthology.org/2025.tacl-1.14/) · [PDF](https://aclanthology.org/2025.tacl-1.14.pdf)
-- [線上簡報](https://tc9305.github.io/simulst-tacl2025-quarto/SimulST/)
+- [線上簡報](https://tc9305.github.io/streaming-speech-research/SimulST/)
 
 ## 修改與預覽
 
