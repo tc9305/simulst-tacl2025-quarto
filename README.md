@@ -7,8 +7,14 @@
 | 主題 | 內容 | 進度 |
 | --- | --- | --- |
 | [SimulST](SimulST/README.md) | Papi et al. (2025) 論文理解與報告簡報 | 已有簡報 |
-| [StreamST](StreamST/README.md) | 串流語音翻譯研究與實驗 | 待開始 |
+| [StreamST](StreamST/README.md) | 串流語音翻譯研究與實驗 | 已有術語筆記；實驗待開始 |
 | [SpeechLLM](SpeechLLM/README.md) | Speech LLM 架構研究、實作與 demo | 待開始 |
+
+## 共用術語筆記
+
+[SimulST／StreamST 術語與閱讀判斷規則](notes/terminology.md) · [網頁閱讀版](https://tc9305.github.io/streaming-speech-research/notes/terminology.html)
+
+比較 StreamAtt 2024 與 TACL 2025 的用語，整理輸入、分段方式、架構、輸出與評估。資料夾名稱是研究整理方式，不代表 SimulST 與 StreamST 是互斥的標準分類。
 
 網站首頁：https://tc9305.github.io/streaming-speech-research/
 
@@ -21,6 +27,7 @@ README.md       # 研究與協作入口
 SimulST/        # 現有 Quarto 簡報來源、圖解與說明
 StreamST/       # 串流語音翻譯研究
 SpeechLLM/      # Speech LLM 研究、實作與 demo
+notes/          # 跨主題共用術語筆記
 docs/           # GitHub Pages 發布內容
 ```
 
@@ -37,6 +44,8 @@ quarto render
 ```
 
 簡報輸出至根目錄 `docs/SimulST/index.html`。修改首頁或主題入口時，直接編輯對應 HTML。
+
+共用術語頁由 `notes/terminology.md` 產生。在 repo 根目錄執行 `python scripts/build_terminology.py`（需 Python 與 Quarto），再將 Markdown 原稿與 `docs/notes/terminology.html` 一起提交。
 
 GitHub Pages 設定：Settings → Pages → Deploy from a branch → main → /docs → Save。將來源與更新的 `docs/` 一起 commit / push，即可發布。
 

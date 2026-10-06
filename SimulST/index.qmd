@@ -156,6 +156,8 @@ Direct 省略明確的中間 ASR 輸出，仍可使用目標語文字歷史。<b
 
 **例子**：一個系統可以是 direct、使用 bounded input，並採用只追加的 incremental output。
 
+**名稱用法比較**：StreamAtt 2024 把 SimulST 描述為處理預切語音，以 continuous、unbounded streams 定義 StreamST；TACL 2025 則以較廣的 SimulST 框架整理輸入假設。這是兩篇論文的用語範圍差異，不是全領域固定二分法。[StreamAtt 原文](https://aclanthology.org/2024.acl-long.202/) · [共用術語筆記](../notes/terminology.html)
+
 **易混淆處**：知道其中一項，不能直接推出另外兩項。Re-translation 在這裡是允許修訂已顯示文字的策略，將在 Step 6 具體示範。這張表整理的是本文 taxonomy，不是規定所有組合都有相同效果。
 :::
 

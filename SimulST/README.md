@@ -5,6 +5,12 @@
 - [論文](https://aclanthology.org/2025.tacl-1.14/) · [PDF](https://aclanthology.org/2025.tacl-1.14.pdf)
 - [線上簡報](https://tc9305.github.io/streaming-speech-research/SimulST/)
 
+## 共用閱讀筆記
+
+[SimulST／StreamST 術語與閱讀判斷規則](../notes/terminology.md) · [網頁閱讀版](https://tc9305.github.io/streaming-speech-research/notes/terminology.html)
+
+補充 StreamAtt 2024 與 TACL 2025 的名稱用法差異，並整理 input、segmentation、architecture、output 與評估的閱讀檢查表。
+
 ## 修改與預覽
 
 安裝 [Quarto](https://quarto.org/docs/get-started/) 後，在 `SimulST/` 資料夾執行：

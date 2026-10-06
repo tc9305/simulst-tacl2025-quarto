@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="StreamST 研究入口：SimulST／StreamST 用語比較、StreamAtt 閱讀與歷史管理、串流評估問題。">
   <title>StreamST · Streaming Speech Research</title>
   <link rel="stylesheet" href="../styles.css">
 </head>
@@ -10,13 +11,26 @@
 <main>
   <a class="home-button" href="../index.html">← 回首頁</a>
   <h1>StreamST</h1>
-  <p class="intro">串流語音翻譯的研究與實驗紀錄。</p>
+  <p class="intro">探索 continuous／unbounded speech 的翻譯、歷史管理與評估。先釐清論文如何定義名稱，再比較系統實際承擔的工作。</p>
   <section class="card">
-    <h2>目前進度</h2>
-    <p><span class="status">待開始</span></p>
-    <p>下一步：整理閱讀資料與研究問題。</p>
-    <p>後續筆記、簡報與實驗結果將從這裡連結。</p>
+    <h2>共用術語與閱讀判斷規則</h2>
+    <p>整理 bounded／unbounded、segment／chunk、segmentation、direct／cascade 與輸出策略，並比較 StreamAtt 2024 和 TACL 2025 的名稱用法。</p>
+    <p><a href="../notes/terminology.html">閱讀完整術語筆記 →</a></p>
+    <p><a href="https://github.com/tc9305/streaming-speech-research/blob/main/notes/terminology.md">GitHub Markdown 原稿</a> · <a href="../SimulST/index.html">SimulST 論文簡報</a></p>
   </section>
+  <section class="card">
+    <h2>兩篇論文的名稱用法</h2>
+    <p><strong>StreamAtt，ACL 2024：</strong>摘要把 SimulST 描述為處理預切語音，以 continuous、unbounded streams 定義 StreamST。<a href="https://aclanthology.org/2024.acl-long.202/">閱讀原文</a></p>
+    <p><strong>TACL 2025：</strong>使用較廣的 SimulST 框架，指出預切輸入是多數研究的簡化設定，並以輸入、架構及輸出策略分類。<a href="https://aclanthology.org/2025.tacl-1.14/">閱讀原文</a></p>
+    <p>這是兩篇論文的用語範圍差異，不能視為整個領域固定的二分法。本站的資料夾名稱是研究整理方式。</p>
+  </section>
+  <section class="card">
+    <h2>目前進度與下一步</h2>
+    <p><span class="status">已有術語筆記</span> StreamAtt 詳細方法閱讀與實驗待開始。</p>
+    <p>下一步：閱讀 StreamAtt 如何選擇語音與文字歷史，以及 StreamLAAL 如何評估串流延遲。</p>
+    <p>研究問題：如何控制持續增長的上下文？如何處理 system output 與 reference 句界不同的評估問題？</p>
+  </section>
+  <footer>Streaming Speech Research · 共同研究與學習紀錄</footer>
 </main>
 </body>
 </html>
