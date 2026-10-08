@@ -24,6 +24,8 @@ GitHub repository：[tc9305/streaming-speech-research](https://github.com/tc9305
 
 ```text
 README.md       # 研究與協作入口
+Liu/            # Liu的ppt數據的資料夾
+chiu/           # chiu的ppt數據的資料夾
 SimulST/        # 現有 Quarto 簡報來源、圖解與說明
 StreamST/       # 串流語音翻譯研究
 SpeechLLM/      # Speech LLM 研究、實作與 demo
