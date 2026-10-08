@@ -1,0 +1,5 @@
+chunk_ms,cer_reported_percent,substitutions,deletions,insertions,reference_chars
+80,18.60,8,0,0,43
+160,16.28,7,0,0,43
+320,16.28,7,0,0,43
+560,13.95,6,0,0,43
