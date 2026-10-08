@@ -1,0 +1,106 @@
+{
+  "assembled_on": "2026-10-08",
+  "provenance": "依使用者貼出的輸出重建；未取回 SSH 伺服器原始執行產物，未重新執行。",
+  "conditions": {
+    "C1": "語音輸入，要求回應；完整提示待原始 question.json 核對",
+    "C2": "語音輸入，要求英文轉寫；完整提示待核對",
+    "C3": "語音輸入，要求繁體中文翻譯；完整提示待核對",
+    "C4": "同份模型走文字輸入路徑；以人工文字替換 C3 的 <speech>，不傳入 speech"
+  },
+  "samples": [
+    {
+      "id": "A01",
+      "file": "A01cool_music.wav",
+      "source": "what are some cool music from the one thousand nine hundred and twenties",
+      "source_status": "使用者提供的原話；C4 程式另補問號",
+      "outputs": [
+        [
+          "C1",
+          "Some cool music from the one thousand nine hundred and twenties includes jazz legends like Louis Armstrong and Duke Ellington, as well as popular songs from the Roaring Twenties like 'The Charleston' and 'Five Foot Two, Eyes of Blue'.",
+          "英文回答問題；內容事實未另查核"
+        ],
+        [
+          "C2",
+          "Some cool music from the one thousand nine hundred and twenties includes jazz legends like Louis Armstrong and Duke Ellington, as well as popular songs like 'The Charleston' and 'Five Foot Two, Eyes of Blue'.",
+          "回答問題，未逐字轉寫"
+        ],
+        [
+          "C3",
+          "Some cool music from the one thousand nine hundred and twenties includes jazz legends like Louis Armstrong and Duke Ellington, as well as popular songs like 'The Charleston' and 'Five Foot Two, Eyes of Blue'.",
+          "英文回答，未翻譯"
+        ],
+        [
+          "C4",
+          "What are some cool music from the one thousand nine hundred and twenties?",
+          "保留英文問題，未翻譯"
+        ]
+      ]
+    },
+    {
+      "id": "A02",
+      "file": "A02meeting.wav",
+      "source": "The meeting has been moved from Monday morning to Tuesday afternoon.",
+      "source_status": "使用者提供的原話",
+      "outputs": [
+        [
+          "C1",
+          "The meeting has been rescheduled to Tuesday afternoon.",
+          "英文改述；省略原時段"
+        ],
+        [
+          "C2",
+          "The meeting has been moved from Monday morning to Tuesday afternoon.",
+          "與提供的原話一致"
+        ],
+        [
+          "C3",
+          "会议已从星期一上午到星期二下半天进行。",
+          "嘗試中文輸出，但改期語意不準確且非繁體"
+        ],
+        [
+          "C4",
+          "會議已從星期一上午改到星期二下午。",
+          "人工初判符合繁體中文翻譯"
+        ]
+      ]
+    },
+    {
+      "id": "A03",
+      "file": null,
+      "source": null,
+      "source_status": "情境涉及家中蘋果、香蕉及不需烹煮的點心；本次未取得原音檔及完整逐字參考。原 A03USA_name.wav 已由情境題替換，最終檔名待核對。",
+      "outputs": [
+        [
+          "C1",
+          "You can make a fruit salad with your apples and bananas, or try making a smoothie by blending them together with some yogurt or milk.",
+          "英文回答點心建議"
+        ],
+        [
+          "C2",
+          "You can make a fruit salad or a smoothie with your apples and bananas without cooking.",
+          "仍回答問題；是否逐字一致須原音檔核對"
+        ],
+        [
+          "C3",
+          "You can make a fruit salad or a smoothie with your apples and bananas without cooking.",
+          "英文回答，未翻譯"
+        ],
+        [
+          "C4",
+          "What kind of snack can you make with apples and bananas at home without cooking?",
+          "輸出英文問題，未翻譯"
+        ]
+      ]
+    }
+  ],
+  "extra": {
+    "id": "A01-C4-system",
+    "prediction": "一九二零年代的cool音乐包括Jazz、Blues和Swing音乐。",
+    "assessment": "混合中文／英文的回答，未忠實翻譯原問題；與主要 12 格分開記錄"
+  },
+  "limitations": [
+    "完整提示、執行腳本、模型／程式 revision、音訊雜湊及每次解碼參數待回收",
+    "C1–C3 條件意圖可由對話辨識，但此檔不是原始推論日誌",
+    "不以三筆便利樣本計算可泛化成功率"
+  ]
+}
