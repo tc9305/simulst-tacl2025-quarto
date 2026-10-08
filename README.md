@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | [SimulST](SimulST/README.md) | Papi et al. (2025) 論文理解與報告簡報 | 已有簡報 |
 | [StreamST](StreamST/README.md) | 串流語音翻譯研究與實驗 | 已有術語筆記；實驗待開始 |
-| [SpeechLLM](SpeechLLM/README.md) | Speech LLM 架構研究、實作與 demo | 待開始 |
+| [SpeechLLM](SpeechLLM/README.md) | Speech LLM 架構研究、實作與 demo | 已有 LLaMA-Omni 架構筆記與初步測試 |
 
 ## 共用術語筆記
 
