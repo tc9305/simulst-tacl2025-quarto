@@ -15,7 +15,7 @@
 
 ### 編輯與預覽
 
-安裝 [Quarto CLI](https://quarto.org/docs/get-started/) 後，在 `StreamST/` 執行：
+安裝 [Quarto CLI](https://quarto.org/docs/get-started/) 後，在 `Liu/` 執行：
 
 ```sh
 python3 -m venv .venv
